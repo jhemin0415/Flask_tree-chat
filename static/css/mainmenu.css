@@ -1,0 +1,105 @@
+body {
+    color : white;
+}
+
+table, th, td {
+    vertical-align: center;
+}
+
+#mainbox {
+    width: calc(100vw - 80px);
+    height: calc(100vh - 56px);
+    margin-left: 80px;
+}
+
+.height_match {
+    background-color: #f8f9fa; 
+    width: 80px; 
+    height: calc(100vh - 56px); 
+    float:left;    
+}
+
+.tool:hover {
+    background-color: gray;
+}
+
+.friend-list:hover {
+    background-color: gray;
+    margin : 0px;
+    cursor: pointer;
+}
+
+div {
+    padding: 0px;
+    margin: 0px;
+
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+
+
+
+
+.tree {
+    margin:0 0 0 0em; /* indentation */
+    padding:0 0px;
+    list-style:none;
+    color: rgb(224,224,224);
+    position:relative;
+
+}
+.tree ul {
+  margin:0 0 0 0.5em; /* indentation */
+  padding:0 0px;
+  list-style:none;
+  position:relative;
+}
+
+.tree:before,
+.tree ul:before {
+  content:"";
+  display:block;
+  width:0;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  border-left:1px solid;
+}
+
+.tree li {
+  margin:0;
+  padding:0 1em; /* indentation + .5em */
+  line-height:1.5em; /* default list item's `line-height` */
+  font-weight:bold;
+  position:relative;
+}
+
+.tree li:before {
+  content:"";
+  display:block;
+  width:10px; /* same with indentation */
+  height:0;
+  border-top:1px solid;
+  margin-top:-1px; /* border top width */
+  position:absolute;
+  top:1em; /* (line-height/2) */
+  left:0;
+}
+
+.tree li:last-child:before {
+  background:#18191c; /* same with body background */
+  height:auto;
+  top:1em; /* (line-height/2) */
+  bottom:0;
+  
+}
+
+.channel_node:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}

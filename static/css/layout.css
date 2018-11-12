@@ -1,0 +1,29 @@
+body {
+	font-family: "맑은 고딕";
+	font-weight: bold;
+    background : #18191C;
+    
+}
+
+.modal-content {
+    width: 400px;
+    background-color: #18191C;
+    color: white;
+ }
+.embed-responsive-item { border-width: 0px; }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

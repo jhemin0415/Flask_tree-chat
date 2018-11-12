@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="margin-top : 125px">
+        <div>
+            <h3 align="center" style="color: white">귀찮은 설치는 필요없습니다.</h3>
+            <h1 align="center" style="color: white" >이제는 쏙!</h1>
+        </div>
+
+        <div align="center" style="margin-top: 20px;">
+            {% if not session['id'] %}
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#Login" onclick="$('#alert1').hide();">시작하기</a>
+            {% else %}
+                <a class="btn btn-primary" href="/mainmenu">시작하기</a>
+            {% endif %}
+        </div>
+
+        <div align="center">
+            <img src="/static/aaaaaaaaaaaaaa.jpg" style="width : 500px; height : 500px">
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+.balloon1 {
+
+    display: inline-block;
+    position: relative;
+    background: #484b52;
+    overflow: auto;
+    word-break:' ';
+    max-width: 400px;
+    margin: 0 auto 10px;
+    border-radius: 10px;
+    padding-left : 10px;
+    padding-right : 10px;
+ }
+
+ .balloon2 {
+    text-align: left;
+    display: inline-block;
+    position: relative;
+    background: #2CCF55;
+    overflow: auto;
+    word-break:break-all;
+    max-width: 400px;
+    margin: 0 auto 10px;
+    border-radius: 10px;
+    padding-left : 10px;
+    padding-right : 10px;
+
+ }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+body {
+    line-height: 1.3;
+}

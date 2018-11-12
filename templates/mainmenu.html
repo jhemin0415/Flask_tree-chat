@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainmenu.css', time=time) }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/mainmenu.js', time=time)}}"></script>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="height_match" id="toolbar">
+        <div style="position: absolute; top : calc(56px + 20px)">
+            <div class="tool" id="home" onclick="home();">
+                <img src="{{ url_for('static', filename='home.png') }}"  style="padding: 7px">
+                
+            </div>
+            <div class="tool" id="personal_talk" onclick="recent_chat();">
+                <img src="{{ url_for('static', filename='chat.png') }}" style="padding: 7px">
+                
+            </div>
+            <div class="tool" id="group_talk" onclick="group_list();">
+                <img src="{{ url_for('static', filename='group_chat.png') }}" style="padding: 7px">
+                
+            </div>
+        </div>
+        
+        <div style="position: absolute; top : calc(100% - 234px)">
+            <div class="tool" id="search_chat" onclick="search_chat();">
+                <img src="{{ url_for('static', filename='magnifying-glass.png') }}" style="padding: 7px">
+                
+            </div>
+            <div class="tool" id="make_group" onclick="make_join_group();">
+                <img src="{{ url_for('static', filename='group.png') }}" style="padding: 7px">
+                
+            </div>
+            <div class="tool" id="search_user" onclick="search_user();">
+                <img src="{{ url_for('static', filename='friends.png') }}" style="padding: 7px">
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}

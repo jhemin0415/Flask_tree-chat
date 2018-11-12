@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block head %}
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/personal_chat.js', session = session['id'], receiver = receiver, time=time) }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/personal_chat.css', time=time)}}">
+{% endblock %}
+{% block content %}
+    <div id="message_window" style="width: 100vw; overflow: auto; height: calc(90vh - 56px);float: left;">
+    {% for x in log %}
+        {% if x[1] == session['id'] %}
+            <div id="personal_chat{{ x[0] }}" align="right" style="color: white;">
+                <span style="margin: 0px;">{{ x[4] }}</span>
+                <div class="balloon2" style="color : white; max-width: 40vw;">{{ x[3] }}</div>
+            </div>            
+        {% else %}
+            <div id="personal_chat{{ x[0] }}" align="left" style="color: white;">
+                <img style="width:30px; height:30px;" src="/static/profile/{{ x[2] }}_profile.png" onerror="if (this.src != 'error.jpg') this.src = '/static/profile/default_profile.png';">
+                <span>{{ x[5] }}</span><br>
+                <div class="balloon1" style="color : white">
+                    {{ x[3] }}
+                </div>
+                <span>{{ x[4] }}</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <div style="width: 100vw; height: 10vh; float: left; background-color: gray;">
+        <textarea id="message" style="resize: none;width: 80%; height: 100%; float: left;" cols="200" rows="200"></textarea>
+        <div style="width: 20%; height: 100%; float: left;">
+            <button onclick="send_message();">전송</button>
+        </div>
+    </div>
+
+{% endblock %}

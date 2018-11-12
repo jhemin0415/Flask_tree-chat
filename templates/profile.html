@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width" , initial-scale="1">
+<link rel="shortcut icon"
+   href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+   crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+   crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/css/profile.css">
+<title>Title</title>
+</head>
+<body style="background-color: #18191C; margin-top: 30px">
+   <div class="container-fluid">
+      <div>
+         <div class="row" id="pic">
+            <div style="margin-left:70px">
+               <img id="profile_picture"
+                  src="/static/profile/{{ session['id'] }}_profile.png"
+                  alt="Profile Picture" style="width: 200px; height: 200px"><br>
+               <button type="button" class="btn btn-secondary" href="#"
+                  data-toggle="modal" data-target="#SetProfileModal"
+                  style="width: 200px;">사진 변경</button>
+            </div>
+            <div style="margin-left: 20px">
+               <div style="color: white">아이디 : {{ session['userid'] }}</div>
+               <span style="color: white;">닉네임 : </span><span id="nicknamepannel"
+                  style="color: white;">{{ session['default_nickname'] }}</span><span
+                  id="messagespan" style="float: right;"><button
+                     id="nickname_change" type="button" class="btn btn-secondary"
+                     onclick="button_change();">변경</button></span>
+               <div style="color: white">상태 메세지</div>
+               <textarea class="form-control" id="status_message" placeholder="First name"></textarea>
+               <button id="message_change" type="button" class="btn btn-secondary"
+                  style="margin-top: 6px; margin-left: 240px;"
+                  onclick="message_change();">확인</button><br>
+               <div id = "PWchange" onclick="pwchange();">비밀번호를 변경하시겠습니까?</div>
+            </div>
+            <div></div>
+         </div>
+
+      </div>
+
+   </div>
+
+   <div class="modal fade" id="SetProfileModal">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+
+            <div class="modal-header">
+               <h4 align="center">프로필 사진 변경</h4>
+            </div>
+
+            <div class="modal-body">
+               <div id="uploads"></div>
+               <div class="dropzone" id="div1">사진을 드래그 해주세요.</div>
+               <button type="button" class="btn btn-secondary" id="profile_submit"
+                  style="width: 200px">확인</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+button {
+   text-align: center;
+   height: 30px;
+   font-size: 11px;
+}
+
+#status_message {
+   width: 300px;
+   height: 116px;
+   min-height: 116px;
+   max-height: 116px;
+}
+
+#pic {
+   height: 200px;
+}
+
+.dropzone {
+   left: 145px;
+   width: 200px;
+   height: 200px;
+   border: 2px dashed #ccc;
+   color: #ccc;
+   text-align: center;
+   line-height: 200px;
+}
+
+.dropzone.dragover {
+   border-color: #000;
+   color: #000;
+}
+
+#dropped {
+   position: absolute;
+   height: 200px;
+   width: 200px;
+}
+#PWchange {
+   color : white;
+}
+#PWchange:hover {
+   color : #3162C7;
+}
