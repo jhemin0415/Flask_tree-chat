@@ -4,7 +4,7 @@ var queryString = myscript.src.replace(/^[^\?]+\??/,'');
 var params = parseQuery(queryString);
 var room_base = `${params.groupnum}/${params.channelnum}`;
 var room_name = null;
-var socket = io.connect('http://203.252.231.149');
+var socket = io.connect('http://127.0.0.1');
 var notice = false;
 
 console.log(params.session);

@@ -1,26 +1,9 @@
-from pywebpush import webpush, WebPushException
+import os
 
-try:
-    webpush(
-        subscription_info={
-            "endpoint": "https://push.example.com/v1/12345",
-            "keys": {
-                "p256dh": "0123abcde...",
-                "auth": "abc123..."
-            }},
-        data="Mary had a little lamb, with a nice mint jelly",
-        vapid_private_key="path/to/vapid_private.pem",
-        vapid_claims={
-                "sub": "mailto:YourNameHere@example.org",
-            }
-    )
-except WebPushException as ex:
-    print("I'm sorry, Dave, but I can't do that: {}", repr(ex))
-    # Mozilla returns additional information in the body of the response.
-    if ex.response and ex.response.json():
-        extra = ex.response.json()
-        print("Remote service replied with a {}:{}, {}",
-              extra.code,
-              extra.errno,
-              extra.message
-              )
+subscription_info = {"endpoint":"https://fcm.googleapis.com/fcm/send/d3JKsdh_ZJI:APA91bGNJ1310rEEoC_s9FIY3WVz72sUJXn9GIKgiV29-D8awAj3hi6dY3HCj_hJG21vPf9L0yo-pwdbVwneY83vXKuUs3RcWfdotSkfddbMZiQyAhtp2r2lDnuIVYVASDrBkjLqVDtX","expirationTime":None,"keys":{"p256dh":"BC0TJgvDYKnRbHaU_9KUUw605Dd_WkN-9dvU64Sd80jUkSnhVcm6vlT0_1nExVkU-RvQE8ziQnnRB57rytMtyQI","auth":"JWOvi464krLeqtzLAf8hyg"}}
+
+endpoint = subscription_info['endpoint']
+p256dh = subscription_info['keys']['p256dh']
+auth = subscription_info['keys']['auth']
+
+os.system('''curl -d "endpoint={0}&p256dh={1}&auth={2}&data={3}" http://127.0.0.1:8080 '''.format(subscription_info['endpoint'], subscription_info['keys']['p256dh'], subscription_info['keys']['auth'], 'hello glitch.'))

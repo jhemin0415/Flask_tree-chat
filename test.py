@@ -1,6 +1,3 @@
-from pywebpush import webpush, WebPushException
-import logging
+import py_vapid
 
-wvpk = 'xxx'
-
-subscription_info = {"endpoint"}
+a = py_vapid.Vapid01()

@@ -16,10 +16,9 @@ function parseQuery(query){
         Params[key] = val;
     }
     return Params
-
 }
 
-var socket = io.connect("http://203.252.231.149");
+var socket = io.connect("http://127.0.0.1");
 console.log('connected')
 
 function send_message(){
@@ -34,6 +33,7 @@ function send_message(){
 }
 
 window.onload = function(){
+    var message_window = document.getElementById('message_window')
     socket.emit('join_room', {'room': params.session});
     document.getElementById("message").addEventListener("keyup", function(event) {
         event.preventDefault();
@@ -59,6 +59,27 @@ window.onload = function(){
         }
     }
     document.getElementById('message_window').scrollTo(0,message_window.scrollHeight);
+
+    message_window.ondragover = function(e){
+        e.preventDefault();
+        message_window.style.cursor = "copy";
+    }
+
+    message_window.ondrop = function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var file = e.dataTransfer.files[0];
+        message_window.style.cursor = "default";
+        if (file.size < 20 * 1024 * 1024){
+            var filereader = new FileReader();
+            filereader.onload = function(){
+                socket.emit('send_personal_file', {'event': 'file_upload', 'file': file.name, 'data': filereader.result, 'receiver': params.receiver})
+            }
+            filereader.readAsText(file);
+        }
+        
+
+    }
 }
 
 socket.on('receive_personal_message', function(message){
@@ -86,4 +107,9 @@ socket.on('receive_personal_message', function(message){
     message_window.scrollTo(0,message_window.scrollHeight);
 })
 
+socket.on('receive_file', function(message){
+    var message_window = document.getElementById('message_window');    
 
+
+
+})

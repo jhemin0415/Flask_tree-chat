@@ -1,4 +1,4 @@
-var socket = io.connect("http://203.252.231.149");
+var socket = io.connect("http://127.0.0.1");
 
 function home(){
     document.getElementById('main').innerHTML = `
@@ -248,3 +248,5 @@ window.onload = function(){
     socket.emit('login', 'login');
 
 }
+
+

@@ -1,0 +1,63 @@
+    <div style="text-align: center; padding-top : 50px">
+        <h1>Notice</h1><br><br>
+        <h2>Still In Progress...</h2><br><br><br><br><br><br>
+        
+        <h3>청주대학교</h3><br>
+        <h3>정해민</h3>
+        <h3>박준혁</h3>
+        <h3>한재용</h3>
+    </div>
+
+
+
+
+
+
+    <div class="mainbox" id="mainbox">
+        <div style="width:calc(50vw - 40px); height:calc(100vh - 56px) ; float: left;">
+            <div style="text-align: center; margin-top:100px">
+                <h1>그룹 만들기</h1>
+                <div style="margin-top:100px">
+                    <h3>원하는 그룹의 이름을 써주세요.</h3>
+                    <div style="margin-top:50px">
+                        <h3>그룹 사진</h3>
+                        <img src="{{ url_for('static', filename = 'plus-button.png') }}"><br>
+                        <button>사진 변경</button>
+                    </div>
+                    <div style="margin-top : 50px">
+                        <input type="text" placeholder="이름을 입력해 주세요">
+                        <button>만들기</button>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div style="width:calc(50vw - 40px); height:calc(100vh - 56px) ; float: left;">
+            <div style="text-align: center; margin-top: 100px">
+                <h1>그룹 참여하기</h1>
+                <div style="margin-top : 100px">
+                    <h3>초대 URL을 입력해주세요.</h3>
+                    <div style="margin-top:50px">
+                        <img src="{{ url_for('static', filename='network.png')}}" width="200px" height="200px">
+                    </div>
+                    <div style="margin-top : 50px">
+                        <input type="text" placeholder="코드를 입력해 주세요">
+                        <button>입장</button>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mainbox" id="mainbox">
+        <div style="width:calc(100vw - 80px); height:calc(100vh - 56px); float: left; text-align: center">
+            <div style="margin-top:100px">
+                <h1>사용자 검색</h1>
+                <div style="margin-top:100px">
+                    <span>사용자 ID : </span>
+                    <input type="text" placeholder="사용자 ID를 입력해주세요." style="width: 500px">
+                    <button>검색</button>
+                </div>
+            </div>
+        </div>
+    </div>

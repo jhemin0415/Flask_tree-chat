@@ -1,19 +1,27 @@
 from functools import wraps
-from flask import Flask, request, render_template, redirect, jsonify, session, url_for, g
+from flask import Flask, request, render_template, redirect, jsonify, session, url_for, Response
 from flask_socketio import SocketIO, rooms, close_room, join_room, leave_room
 from flask_mail import Mail, Message
+import mimetypes
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flaskext.mysql import MySQL
-from random import randint
+import random
+import string
 import numpy
 import time
 from package import dictionary
 import json
-from pywebpush import webpush
 from markupsafe import Markup, escape
+import os
+import codecs
+import py_vapid
+from flask_cors import CORS, cross_origin
+
 
 import eventlet
-eventlet.monkey_patch()
+#eventlet.monkey_patch()
+mimetypes.add_type('application/javascript', '.js')
 
 app = Flask(__name__)
 app.config.update(
@@ -29,10 +37,12 @@ app.config.update(
     UPLOAD_FOLDER = '/static/upload'
 )
 app.secret_key = 'treechat'
+
 mysql = MySQL()
 mysql.init_app(app)
 mail = Mail(app)
 socketio = SocketIO(app)
+CORS(app)
 
 def login_required(f):
     @wraps(f)
@@ -52,7 +62,7 @@ def generate_number():
         conn.close()
 
     while 1:
-        number = randint(1,999999999)
+        number = random.randint(1,999999999)
         if result:
             if number not in result[0]:
                 return number
@@ -123,6 +133,7 @@ def profile():
             finally:
                 conn.close()
     return render_template('profile.html', time=time.time())
+
 
 @app.route('/mainmenu', methods=['GET', 'POST'])
 @login_required
@@ -399,13 +410,19 @@ def mainmenu():
         if data['request'] == 'cancel':
             pass
 
+        if data['request'] == 'endpoint':
+            print(data)
+            return '0'
+
     return render_template('mainmenu.html', time=time.time())
 
-@app.route('/personal_chat/<id>')
+@app.route('/personal_chat/<id>', methods=['GET', 'POST'])
 @login_required
 def personal_chat(id):
     conn = mysql.connect()
     cur = conn.cursor()
+
+
     try:
         cur.execute('''select p.personal_number, p.id1, p.id2, p.contents, date_format(p.date, "%T"), a.nickname 
                        from personal_chatting p, account a 
@@ -561,13 +578,28 @@ def logout():
     session.pop('message', None)
     return redirect('/')
 
-@app.route('/notice')
-def notice():
-    return render_template('notice.html', time=time.time())
 
-@app.route('/phone')
-def phone_room():
-    return render_template('basic_audio_call.html', time=time.time())
+@app.route('/send_subscribe', methods=["GET", "POST"])
+def subscript():
+    if request.method == "POST":
+        data = request.get_json()
+        data = json.dumps(data)
+        print(type(data))
+
+        conn = mysql.connect()
+        cur = conn.cursor()
+        try:
+            cur.execute('''update account set subscribe = '{0}' where id = '{1}' '''.format(data, session['id']))
+            conn.commit()
+        finally:
+            conn.close()
+
+        return jsonify(status = '1')
+
+
+
+
+
 
 ################################################################################
 @socketio.on('join_room')
@@ -591,6 +623,15 @@ def send_personal_message(message):
         if message['message'] not in ['\n', '']:
             cur.execute('insert into personal_chatting (id1, id2, contents, date) values (%s, %s, %s, now())', (session['id'], message['receiver'], message['message']))
             message['message'] = message['message'].replace('\n', '<br>')
+            cur.execute('select subscribe from account where id = %s', (message['receiver']))
+
+
+            subscription_info = cur.fetchone()[0]
+            if subscription_info:
+                subscription_info = json.loads(subscription_info)
+                os.system('''curl -d "endpoint={0}&p256dh={1}&auth={2}&data={3}" http://127.0.0.1:8080 '''.format(
+                    subscription_info['endpoint'], subscription_info['keys']['p256dh'], subscription_info['keys']['auth'],
+                    'Tree-Chat!!  -  ' + message['message']))
             conn.commit()
         else:
             print('asdf')
@@ -599,6 +640,31 @@ def send_personal_message(message):
     for x in set([session['id'], message['receiver']]):
         print(x)
         socketio.emit('receive_personal_message', { 'message' : message['message'], 'sender' : session['id'], 'nickname': session['nickname'] } , room=x)
+
+@socketio.on('send_personal_file')
+def send_personal_file(message):
+    conn = mysql.connect()
+    cur = conn.cursor()
+
+    original_filename = secure_filename(message['file'])
+    try:
+        letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
+        stored_filename = ''.join(random.choice(letters) for i in range(19))
+        UPLOAD_PATH = os.path.join('.', 'static', 'upload', stored_filename)
+        f = codecs.open(UPLOAD_PATH, 'wb', "UTF-8")
+        f.write(message['data'])
+        f.close()
+        cur.execute(
+            '''insert into personal_file_storage (id1, id2, original_file_name, stored_file_name, date) values (%s, %s, %s, %s, now()) ''',
+            (session['id'], message['receiver'], original_filename, stored_filename))
+        cur.execute('''insert into filename_log values (%s)''', (stored_filename,))
+
+    finally:
+        conn.close()
+
+
+
+
 
 @socketio.on('send_message')
 def send_message(message):
@@ -652,4 +718,7 @@ def send_group_message(message):
     socketio.emit('receive_message', {'message': message['message'], 'room': message['room'], 'sender': session['id'], 'nickname': session['nickname']}, room=message['room'])
 
 if __name__ == "__main__":
-    socketio.run(app, host = "203.252.231.149", port=80, debug=True)
+    #certfile="cert.crt", keyfile="cert.key",
+    socketio.run(app, host = "127.0.0.1", port=80, debug=True,
+                 #certfile="cert.crt", keyfile="cert.key"
+                 )

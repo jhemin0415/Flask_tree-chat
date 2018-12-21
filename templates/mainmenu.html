@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 
 {% block head %}
+    
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mainmenu.css', time=time) }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='js/mainmenu.js', time=time)}}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='js/mainmenu.js', time=time)}}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='js/mainmenu2.js', time=time)}}"></script>
+
+    
 {% endblock %}
 
 {% block toolbar %}
